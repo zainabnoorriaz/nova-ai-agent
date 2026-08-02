@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova AI Agent</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Meet Nova</h1>
+            <p class="hero-subtitle">Your AI Agent for Everything</p>
+
+            <button class="cta-button" onclick="openChat()">
+                Start Chatting →
+            </button>
+        </div>
+
+        <div class="mascot-wrapper">
+            <img src="/static/Chat%20bot-cuate.svg" alt="Nova robot mascot" class="mascot">
+
+            <div class="floating-bubble bubble-1" onclick="openCalculator()">🧮 Calculator</div>
+            <div class="floating-bubble bubble-2" onclick="openWeather()">🌦️ Weather</div>
+            <div class="floating-bubble bubble-3" onclick="openResume()">📄 Resume Analyzer</div>
+            <div class="floating-bubble bubble-4" onclick="openSearch()">🔍 Web Search</div>
+
+        
+    </section>
+
+    <!-- ================= CALCULATOR ================= -->
+
+    <div class="modal-overlay" id="calc-modal">
+        <div class="calc-modal">
+
+            <div class="calc-header">
+                <span>🧮 Calculator</span>
+                <button class="close-btn" onclick="closeCalculator()">✕</button>
+            </div>
+
+            <input
+                type="text"
+                id="calc-display"
+                class="calc-display"
+                readonly>
+
+            <div class="calc-buttons">
+
+                <button onclick="calcClear()" class="calc-btn op">C</button>
+                <button onclick="calcInput('(')" class="calc-btn op">(</button>
+                <button onclick="calcInput(')')" class="calc-btn op">)</button>
+                <button onclick="calcInput('/')" class="calc-btn op">÷</button>
+
+                <button onclick="calcInput('7')" class="calc-btn">7</button>
+                <button onclick="calcInput('8')" class="calc-btn">8</button>
+                <button onclick="calcInput('9')" class="calc-btn">9</button>
+                <button onclick="calcInput('*')" class="calc-btn op">×</button>
+
+                <button onclick="calcInput('4')" class="calc-btn">4</button>
+                <button onclick="calcInput('5')" class="calc-btn">5</button>
+                <button onclick="calcInput('6')" class="calc-btn">6</button>
+                <button onclick="calcInput('-')" class="calc-btn op">−</button>
+
+                <button onclick="calcInput('1')" class="calc-btn">1</button>
+                <button onclick="calcInput('2')" class="calc-btn">2</button>
+                <button onclick="calcInput('3')" class="calc-btn">3</button>
+                <button onclick="calcInput('+')" class="calc-btn op">+</button>
+
+                <button onclick="calcInput('0')" class="calc-btn zero">0</button>
+                <button onclick="calcInput('.')" class="calc-btn">.</button>
+                <button onclick="calcEquals()" class="calc-btn equals">=</button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CHAT ================= -->
+
+    <div class="modal-overlay" id="chat-modal">
+
+        <div class="chat-modal">
+
+            <div class="chat-header">
+                <span>💬 Chat with Nova</span>
+                <button class="close-btn" onclick="closeChat()">✕</button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <div class="chat-input-area">
+
+                <input
+                    type="text"
+                    id="chat-input"
+                    placeholder="Ask Nova anything..."
+                    autocomplete="off">
+
+                <button
+                    id="chat-send-btn"
+                    onclick="sendChatMessage()">
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RESUME ANALYZER ================= -->
+
+    <div class="fullpage-overlay" id="resume-modal">
+
+        <div class="fullpage-header">
+            <button class="back-btn" onclick="closeResume()">← Back</button>
+            <span class="fullpage-title">📄 Resume Analyzer</span>
+        </div>
+
+        <div class="fullpage-content">
+
+            <!-- Upload View -->
+            <div class="resume-body" id="resume-upload-view">
+
+                <div
+                    class="dropzone"
+                    id="dropzone"
+                    onclick="document.getElementById('resume-file').click()">
+
+                    <div class="dropzone-icon">📄</div>
+
+                    <p>Click to upload your resume (PDF)</p>
+
+                    <input
+                        type="file"
+                        id="resume-file"
+                        accept=".pdf"
+                        style="display:none"
+                        onchange="handleResumeFile(this.files[0])">
+
+                </div>
+
+                <div id="resume-filename"></div>
+
+            </div>
+
+            <!-- Loading View -->
+            <div
+                class="resume-body"
+                id="resume-loading-view"
+                style="display:none">
+
+                <div class="loader"></div>
+
+                <p>Analyzing your resume...</p>
+
+            </div>
+
+            <!-- Result View -->
+            <div
+                class="resume-body"
+                id="resume-result-view"
+                style="display:none">
+
+                <div class="score-ring-wrapper">
+
+                    <svg
+                        viewBox="0 0 120 120"
+                        class="score-ring">
+
+                        <circle
+                            cx="60"
+                            cy="60"
+                            r="50"
+                            class="score-ring-bg"/>
+
+                        <circle
+                            cx="60"
+                            cy="60"
+                            r="50"
+                            class="score-ring-fill"
+                            id="score-circle"/>
+
+                    </svg>
+
+                    <div
+                        class="score-number"
+                        id="score-number">
+                        0
+                    </div>
+
+                </div>
+
+                <div class="result-section">
+                    <h3>✅ Strengths</h3>
+                    <ul id="strengths-list"></ul>
+                </div>
+
+                <div class="result-section">
+                    <h3>💡 Suggestions</h3>
+                    <ul id="suggestions-list"></ul>
+                </div>
+
+                <button
+                    class="cta-button"
+                    onclick="resetResume()">
+                    Analyze Another
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="fullpage-overlay" id="weather-modal">
+        <div class="fullpage-header">
+            <button class="back-btn" onclick="closeWeather()">← Back</button>
+            <span class="fullpage-title">🌦️ Weather</span>
+        </div>
+
+        <div class="fullpage-content">
+            <div class="weather-body">
+                <div class="weather-search">
+                    <input type="text" id="weather-city-input" placeholder="Enter a city..." onkeydown="if(event.key==='Enter') searchWeather()">
+                    <button onclick="searchWeather()">Search</button>
+                </div>
+
+                <div class="weather-card" id="weather-card" style="display:none">
+                    <div class="weather-icon" id="weather-icon">☀️</div>
+                    <div class="weather-temp" id="weather-temp">--°C</div>
+                    <div class="weather-desc" id="weather-desc"></div>
+                    <div class="weather-city" id="weather-city"></div>
+
+                    <div class="weather-stats">
+                        <div class="weather-stat">
+                            <span>Feels like</span>
+                            <strong id="weather-feels"></strong>
+                        </div>
+                        <div class="weather-stat">
+                            <span>Humidity</span>
+                            <strong id="weather-humidity"></strong>
+                        </div>
+                        <div class="weather-stat">
+                            <span>Wind</span>
+                            <strong id="weather-wind"></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-error" id="weather-error" style="display:none"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullpage-overlay news-theme" id="search-modal">
+        <div class="news-header">
+            <div class="news-header-left">
+                <button class="back-btn news-back" onclick="closeSearch()">← Back</button>
+                <span class="live-badge">🔴 LIVE</span>
+            </div>
+            <span class="news-title">NOVA NEWS NETWORK</span>
+        </div>
+
+        <div class="news-ticker">
+            <div class="news-ticker-track" id="news-ticker-track">Search anything to get the latest headlines — powered by Nova's web search tool.</div>
+        </div>
+
+        <div class="fullpage-content">
+            <div class="news-body">
+                <div class="news-search">
+                    <input type="text" id="search-query-input" placeholder="Search breaking topics..." onkeydown="if(event.key==='Enter') runSearch()">
+                    <button onclick="runSearch()">SEARCH</button>
+                </div>
+
+                <div class="news-results" id="news-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script src="/static/calculator.js"></script>
+    <script src="/static/chat.js"></script>
+    <script src="/static/resume.js"></script>
+    <script src="/static/marked.min.js"></script>
+    <script src="/static/weather.js"></script>
+    <script src="/static/search.js"></script>
+
+</body>
+</html>
