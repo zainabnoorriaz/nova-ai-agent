@@ -27,10 +27,31 @@ Built with vanilla HTML/CSS/JS — no frontend frameworks.
 - **APIs:** OpenWeatherMap, Tavily
 - **Frontend:** HTML, CSS, JavaScript
 
-## 🎥 Demo
+## 📸 Screenshots
 
-📹 [Watch the demo video](assets/demo.mp4)
+### Landing Page
+![Hero Page](assets/01-heropage.png)
 
+### Calculator
+![Calculator](assets/02-calculator.png)
+
+### Tool Interaction
+![Functionality](assets/03-functionality.png)
+
+### Weather
+![Weather](assets/04-weather.png)
+
+### Resume Analyzer — Upload
+![Resume Analyzer](assets/05-resume-analyzer.png)
+
+### Resume Analyzer — Results
+![Resume Results](assets/06-resume.png)
+
+### Web Search — News Theme
+![Web Search](assets/07-websearch.png)
+
+### Search Results
+![Search Results](assets/08-results.png)
 ## 🚀 Setup
 
 \`\`\`bash
